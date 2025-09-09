@@ -23,8 +23,10 @@
         <%= form.submit "Sign in", class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
       </div>
 
-      <div class="mt-4 text-sm text-gray-500 sm:mt-0">
+      <div class="mt-4 text-sm text-gray-500 sm:mt-0 sm:flex sm:gap-4">
         <%= link_to "Forgot password?", new_password_path, class: "text-gray-700 underline hover:no-underline" %>
+        <span class="hidden sm:inline">•</span>
+        <%= link_to "Need an account? Sign up", new_user_path, class: "text-gray-700 underline hover:no-underline block sm:inline mt-2 sm:mt-0" %>
       </div>
     </div>
   <% end %>
