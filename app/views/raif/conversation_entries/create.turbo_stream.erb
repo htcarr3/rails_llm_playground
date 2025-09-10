@@ -1,0 +1,11 @@
+<% if @conversation_entry.persisted? %>
+  <%= turbo_stream.append dom_id(@conversation, :entries), @conversation_entry %>
+  <%= turbo_stream.action :raif_scroll_to_bottom, dom_id(@conversation, :entries)  %>
+  
+  <%= turbo_stream.update dom_id(@conversation, :entry_input) do %>
+    <%= render "raif/conversation_entries/form_with_available_tools", 
+      conversation: @conversation, 
+      conversation_entry: Raif::ConversationEntry.new 
+    %>
+  <% end %>
+<% end %>

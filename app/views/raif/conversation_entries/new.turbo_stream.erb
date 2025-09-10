@@ -1,0 +1,6 @@
+<%= turbo_stream.update dom_id(@conversation, :entry_input) do %>
+  <%= render @form_partial, 
+    conversation: @conversation,
+    conversation_entry: @conversation_entry 
+  %>
+<% end %>

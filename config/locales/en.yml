@@ -29,3 +29,7 @@
 
 en:
   hello: "Hello world"
+  raif:
+    conversations:
+      basic_chat:
+        initial_chat_message: "Hello, how can I help you?"

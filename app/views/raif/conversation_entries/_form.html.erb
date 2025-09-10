@@ -1,0 +1,26 @@
+
+<%= form_with model: conversation_entry,
+              url: raif.conversation_entries_path(conversation),
+              local: true do |f| %>
+
+  <% if conversation_entry.raif_user_tool_invocation %>
+    <%= hidden_field_tag :user_tool_type, conversation_entry.raif_user_tool_invocation.class.name %>
+
+    <%= f.fields_for :raif_user_tool_invocation, conversation_entry.raif_user_tool_invocation do |builder| %>
+      <%= render "raif/user_tool_invocations/form/#{conversation_entry.raif_user_tool_invocation.tool_key}_fields", f: builder %>
+    <% end %>
+  <% end %>
+
+  <div class="flex px-2 items-center">
+    <%= f.text_field :user_message,
+                     class: "flex-1 mr-2 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                     placeholder: conversation_entry.raif_user_tool_invocation&.message_input_placeholder.presence || t("raif.common.type_your_message"),
+                     aria_label: conversation_entry.raif_user_tool_invocation&.message_input_placeholder.presence || t("raif.common.type_your_message") %>
+
+    <div class="flex justify-end items-end">
+      <%= button_tag type: "submit", class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center transition-colors duration-200" do %>
+        <%= t("raif.common.send") %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

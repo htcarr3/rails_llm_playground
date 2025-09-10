@@ -1,0 +1,28 @@
+<div class="flex my-2 px-3 <%= "justify-end" if message_type == :user %>">
+  <div class="flex <%= "chat-message-content" if message_type == :user %> <%= "received-message-content" if message_type == :model_response %>">
+    <% if message_type == :model_response %>
+      <%= render "raif/conversation_entries/model_response_avatar", conversation_entry: local_assigns[:conversation_entry] %>
+    <% end %>
+
+    <% if content.present? %>
+      <div class="mb-1 rounded-lg p-3 <%= message_type == :user ? "bg-blue-500 text-white" : "border border-gray-300" %>">
+        <% case local_assigns[:conversation_entry]&.response_format %>
+        <% when "text" %>
+          <%= simple_format content %>
+        <% when "html" %>
+          <%= sanitize content %>
+        <% else %>
+          <%= content %>
+        <% end %>
+
+        <% if message_type == :model_response && local_assigns[:conversation_entry]&.citations.present? %>
+          <%= render "raif/conversation_entries/citations", conversation_entry: conversation_entry %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if message_type == :user %>
+      <%= render "raif/conversation_entries/user_avatar", conversation_entry: local_assigns[:conversation_entry] %>
+    <% end %>
+  </div>
+</div>

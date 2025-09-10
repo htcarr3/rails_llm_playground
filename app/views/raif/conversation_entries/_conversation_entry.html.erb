@@ -1,0 +1,34 @@
+<div id="<%= dom_id(conversation_entry) %>" class="my-2 conversation-entry">
+  <%= render "raif/conversation_entries/message",
+        conversation_entry: conversation_entry,
+        content: conversation_entry.user_message,
+        message_type: :user if conversation_entry.user_message.present? %>
+
+  <% if conversation_entry.failed? %>
+    <div class="mb-4 container">
+      <%= render "raif/conversation_entries/message",
+            conversation_entry: conversation_entry,
+            content: t("raif.common.there_was_an_error_generating_this_response"),
+            message_type: :model_response %>
+    </div>
+  <% elsif conversation_entry.generating_response? %>
+    <%= render "raif/conversation_entries/message",
+          conversation_entry: conversation_entry,
+          content: if conversation_entry.model_response_message.present?
+                     conversation_entry.model_response_message + content_tag(:span, "", class: "raif-streaming-cursor")
+                   else
+                     content_tag(:span, "", class: "raif-loader")
+                   end,
+          message_type: :model_response %>
+
+  <% elsif conversation_entry.completed? %>
+    <%= render "raif/conversation_entries/message",
+          conversation_entry: conversation_entry,
+          content: conversation_entry.model_response_message,
+          message_type: :model_response if conversation_entry.model_response_message.present? %>
+
+    <% conversation_entry.raif_model_tool_invocations.select(&:renderable?).each do |ti| %>
+      <%= render ti, conversation_entry: conversation_entry %>
+    <% end %>
+  <% end %>
+</div>
