@@ -75,6 +75,21 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.3)
+    aws-eventstream (1.4.0)
+    aws-partitions (1.1157.0)
+    aws-sdk-bedrockruntime (1.59.0)
+      aws-sdk-core (~> 3, >= 3.231.0)
+      aws-sigv4 (~> 1.5)
+    aws-sdk-core (3.232.0)
+      aws-eventstream (~> 1, >= 1.3.0)
+      aws-partitions (~> 1, >= 1.992.0)
+      aws-sigv4 (~> 1.9)
+      base64
+      bigdecimal
+      jmespath (~> 1, >= 1.6.1)
+      logger
+    aws-sigv4 (1.12.1)
+      aws-eventstream (~> 1, >= 1.0.2)
     base64 (0.3.0)
     bcrypt (3.1.20)
     bcrypt_pbkdf (1.1.1)
@@ -141,7 +156,11 @@ GEM
     jbuilder (2.14.1)
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
+    jmespath (1.6.2)
     json (2.13.2)
+    json-schema (6.0.0)
+      addressable (~> 2.8)
+      bigdecimal (~> 3.1)
     kamal (2.7.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -204,6 +223,7 @@ GEM
     openai (0.23.0)
       connection_pool
     ostruct (0.6.3)
+    pagy (9.4.0)
     parallel (1.27.0)
     parser (3.3.9.0)
       ast (~> 2.4.1)
@@ -232,6 +252,16 @@ GEM
       rack (>= 1.3)
     rackup (2.2.1)
       rack (>= 3)
+    raif (1.3.0)
+      aws-sdk-bedrockruntime
+      event_stream_parser (>= 1.0)
+      faraday (>= 2.0)
+      json-schema (>= 5.0)
+      loofah (>= 2.21)
+      pagy
+      rails (>= 7.1)
+      reverse_markdown (>= 2.0)
+      turbo-rails (>= 2.0)
     rails (8.0.2.1)
       actioncable (= 8.0.2.1)
       actionmailbox (= 8.0.2.1)
@@ -269,6 +299,8 @@ GEM
     regexp_parser (2.11.2)
     reline (0.6.2)
       io-console (~> 0.5)
+    reverse_markdown (3.0.0)
+      nokogiri
     rexml (3.4.3)
     rubocop (1.80.2)
       json (~> 2.3)
@@ -412,6 +444,7 @@ DEPENDENCIES
   openai (~> 0.23.0)
   propshaft
   puma (>= 5.0)
+  raif (~> 1.3)
   rails (~> 8.0.2, >= 8.0.2.1)
   rubocop-rails-omakase
   ruby_llm (~> 1.6)
