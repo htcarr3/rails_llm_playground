@@ -4,13 +4,18 @@ class MessagesController < ApplicationController
   def create
     @message = @chat.messages.build(message_params)
     @message.role = "user"
+    # Don't save this message, it will be saved by the LLM response job
+    GenerateLlmResponseJob.perform_later(@chat.id, message_params[:content])
 
-    if @message.save
-      # Generate LLM response using RubyLLM
-      generate_llm_response
-      redirect_to @chat
-    else
-      redirect_to @chat, alert: "Failed to send message"
+    # Return immediate response with Turbo Stream
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.append("messages-container", partial: "messages/message", locals: { message: @message }),
+          turbo_stream.append("messages-container", partial: "messages/typing_indicator", locals: { chat: @chat })
+        ]
+      end
+      format.html { redirect_to @chat }
     end
   end
 
@@ -22,23 +27,5 @@ class MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:content)
-  end
-
-  def generate_llm_response
-    # Use RubyLLM to generate response
-    response = @chat.ask(@message.content)
-
-    if response
-      # The response should be automatically saved as a message by RubyLLM's acts_as_chat
-      # but we can add error handling here if needed
-    end
-  rescue => e
-    Rails.logger.error "Failed to generate LLM response: #{e.message}"
-    # Create an error message for the user
-    @chat.messages.create!(
-      role: "assistant",
-      content: "I apologize, but I'm having trouble responding right now. Please try again.",
-      model_id: @chat.model_id
-    )
   end
 end

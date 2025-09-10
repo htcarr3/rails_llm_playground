@@ -1,0 +1,50 @@
+<div id="typing-indicator" class="flex justify-start">
+  <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-gray-100 text-gray-600">
+    <div class="text-xs font-medium mb-1 text-gray-500">
+      Assistant
+    </div>
+    <div class="text-sm flex items-center">
+      <span class="typing-animation">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </span>
+      <span class="ml-2">Thinking...</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.typing-animation {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.typing-animation .dot {
+  width: 4px;
+  height: 4px;
+  background-color: #9CA3AF;
+  border-radius: 50%;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-animation .dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typing-animation .dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes typing {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+</style>

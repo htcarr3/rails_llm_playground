@@ -1,3 +1,5 @@
+<%= turbo_stream_from "chat_#{@chat.id}" %>
+
 <div class="mx-auto md:w-2/3 w-full h-screen flex flex-col">
   <!-- Header -->
   <div class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
@@ -18,19 +20,7 @@
     <div class="space-y-6 max-w-4xl mx-auto">
       <% if @chat.messages.any? %>
         <% @chat.messages.each do |message| %>
-          <div class="flex <%= message.role == 'user' ? 'justify-end' : 'justify-start' %>">
-            <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg <%= message.role == 'user' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-900' %>">
-              <div class="text-xs font-medium mb-1 <%= message.role == 'user' ? 'text-blue-100' : 'text-gray-500' %>">
-                <%= message.role.capitalize %>
-              </div>
-              <div class="text-sm whitespace-pre-wrap"><%= message.content %></div>
-              <% if message.model_id.present? %>
-                <div class="text-xs mt-1 <%= message.role == 'user' ? 'text-blue-100' : 'text-gray-400' %>">
-                  <%= message.model_id %>
-                </div>
-              <% end %>
-            </div>
-          </div>
+          <%= render "messages/message", message: message %>
         <% end %>
       <% else %>
         <div class="text-center py-12">
@@ -48,7 +38,7 @@
 
   <!-- Message Input Form -->
   <div class="bg-white border-t border-gray-200 p-4">
-    <%= form_with model: [@chat, @message], local: true, class: "flex space-x-4" do |form| %>
+    <%= form_with model: [@chat, @message], class: "flex space-x-4", data: { turbo_action: "advance" } do |form| %>
       <div class="flex-1">
         <%= form.text_area :content, 
             placeholder: "Type your message here...", 
@@ -65,10 +55,30 @@
 
 <script>
   // Auto-scroll to bottom of messages
-  document.addEventListener('DOMContentLoaded', function() {
+  function scrollToBottom() {
     const container = document.getElementById('messages-container');
     if (container) {
       container.scrollTop = container.scrollHeight;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    scrollToBottom();
+  });
+
+  // Auto-scroll when new messages arrive via Turbo Stream
+  document.addEventListener('turbo:stream-connected', scrollToBottom);
+  document.addEventListener('turbo:stream-render', scrollToBottom);
+
+  // Clear form after successful submission
+  document.addEventListener('turbo:submit-end', function(event) {
+    if (event.detail.success) {
+      const form = event.target;
+      const textarea = form.querySelector('textarea[name="message[content]"]');
+      if (textarea) {
+        textarea.value = '';
+        textarea.style.height = 'auto';
+      }
     }
   });
 
