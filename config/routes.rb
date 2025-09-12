@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   resources :chats do
     resources :messages, only: [ :create ]
   end
+  resources :raix_chats do
+    resources :raix_messages, only: [ :create ]
+  end
   resources :raif_conversations
   resources :raif_conversation_entries, only: [ :create ]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

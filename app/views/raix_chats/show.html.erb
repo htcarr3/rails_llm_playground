@@ -1,0 +1,92 @@
+<%= turbo_stream_from "raix_chat_#{@raix_chat.id}" %>
+
+<div class="mx-auto md:w-2/3 w-full h-screen flex flex-col">
+  <!-- Header -->
+  <div class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+    <div>
+      <h1 class="text-xl font-semibold text-gray-900">Raix Chat</h1>
+      <p class="text-sm text-gray-500">Model: <%= @raix_chat.model_id %></p>
+    </div>
+    <div class="flex space-x-2">
+      <%= link_to "All Raix Chats", raix_chats_path, 
+          class: "rounded-md px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium" %>
+      <%= link_to "New Raix Chat", new_raix_chat_path, 
+          class: "rounded-md px-4 py-2 bg-green-600 hover:bg-green-500 text-white font-medium" %>
+    </div>
+  </div>
+
+  <!-- Messages Container -->
+  <div class="flex-1 overflow-y-auto p-6" id="messages-container">
+    <div class="space-y-6 max-w-4xl mx-auto">
+      <% if @raix_chat.messages.any? %>
+        <% @raix_chat.messages.each do |message| %>
+          <%= render "raix_messages/message", message: message %>
+        <% end %>
+      <% else %>
+        <div class="text-center py-12">
+          <div class="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-medium text-gray-900 mb-2">Start the Raix conversation</h3>
+          <p class="text-gray-500">Send your first message to begin chatting with the Raix AI assistant</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Message Input Form -->
+  <div class="bg-white border-t border-gray-200 p-4">
+    <%= form_with model: [@raix_chat, @raix_message], class: "flex space-x-4", data: { turbo_action: "advance" } do |form| %>
+      <div class="flex-1">
+        <%= form.text_area :content, 
+            placeholder: "Type your message here...", 
+            rows: 1,
+            class: "w-full px-4 py-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500",
+            onkeydown: "if(event.key==='Enter' && !event.shiftKey){event.preventDefault(); this.form.submit();}" %>
+      </div>
+      <%= form.submit "Send", 
+          class: "rounded-lg px-6 py-3 bg-green-600 hover:bg-green-500 text-white font-medium" %>
+    <% end %>
+    <p class="text-xs text-gray-500 mt-2">Press Enter to send, Shift+Enter for new line. Function calling enabled!</p>
+  </div>
+</div>
+
+<script>
+  // Auto-scroll to bottom of messages
+  function scrollToBottom() {
+    const container = document.getElementById('messages-container');
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    scrollToBottom();
+  });
+
+  // Auto-scroll when new messages arrive via Turbo Stream
+  document.addEventListener('turbo:stream-connected', scrollToBottom);
+  document.addEventListener('turbo:stream-render', scrollToBottom);
+
+  // Clear form after successful submission
+  document.addEventListener('turbo:submit-end', function(event) {
+    if (event.detail.success) {
+      const form = event.target;
+      const textarea = form.querySelector('textarea[name="raix_message[content]"]');
+      if (textarea) {
+        textarea.value = '';
+        textarea.style.height = 'auto';
+      }
+    }
+  });
+
+  // Auto-resize textarea
+  document.addEventListener('input', function(event) {
+    if (event.target.tagName === 'TEXTAREA') {
+      event.target.style.height = 'auto';
+      event.target.style.height = (event.target.scrollHeight) + 'px';
+    }
+  });
+</script>
