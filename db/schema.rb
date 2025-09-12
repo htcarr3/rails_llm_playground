@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_10_013344) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_12_125246) do
   create_table "chats", force: :cascade do |t|
     t.string "model_id"
     t.datetime "created_at", null: false
@@ -171,6 +171,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_013344) do
     t.index ["raif_conversation_entry_id"], name: "index_raif_user_tool_invocations_on_raif_conversation_entry_id"
   end
 
+  create_table "raix_chats", force: :cascade do |t|
+    t.string "model_id"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_raix_chats_on_user_id"
+  end
+
+  create_table "raix_messages", force: :cascade do |t|
+    t.integer "raix_chat_id", null: false
+    t.string "model_id"
+    t.string "role"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["raix_chat_id"], name: "index_raix_messages_on_raix_chat_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "ip_address"
@@ -203,6 +221,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_013344) do
   add_foreign_key "messages", "chats"
   add_foreign_key "raif_conversation_entries", "raif_conversations"
   add_foreign_key "raif_user_tool_invocations", "raif_conversation_entries"
+  add_foreign_key "raix_chats", "users"
+  add_foreign_key "raix_messages", "raix_chats"
   add_foreign_key "sessions", "users"
   add_foreign_key "tool_calls", "messages"
 end
