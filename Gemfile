@@ -56,7 +56,7 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-  gem 'dotenv', '~> 3.1', '>= 3.1.8'
+  gem "dotenv", "~> 3.1", ">= 3.1.8"
 end
 
 group :test do
