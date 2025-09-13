@@ -7,7 +7,7 @@ module Raif
 
       # If you want to always include a certain set of model tools with this conversation type,
       # uncomment this callback to populate the available_model_tools attribute with your desired model tools.
-      # before_create -> { self.available_model_tools = ["Raif::ModelTools::Example"] }
+      before_create -> { self.available_model_tools = [ "Raif::ModelTools::RaifWeatherTool" ] }
 
       # Override the methods below to customize the system prompt for this conversation type.
       # def system_prompt_intro
