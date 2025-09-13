@@ -3,8 +3,130 @@ This partial is used to render a model tool invocation to the user in the conver
 If you don't want the tool invocation to be displayed to the user, you can override the `renderable?` method in your model tool class to return false
 %>
 
+<%
+  weather_data = raif_weather_tool.result || {}
+  current = weather_data["current"] || {}
+  current_units = weather_data["current_units"] || {}
+%>
+
 <div class="raif-model-tool-invocation">
-  <h5><%= raif_weather_tool.tool_type.demodulize.titleize %> Result</h5>
-  <pre><%= JSON.pretty_generate(raif_weather_tool.result || {}) %></pre>
-  <p>Edit this file in <code><%= __FILE__ %></code> to customize the display of the tool invocation.</p>
+  <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg p-6 shadow-md border border-blue-200">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-4">
+      <h5 class="text-lg font-semibold text-gray-800 flex items-center">
+        <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.002 4.002 0 003 15z"></path>
+        </svg>
+        Weather Report
+      </h5>
+      <% if weather_data["time"] || current["time"] %>
+        <span class="text-sm text-gray-500">
+          <%= current["time"] || weather_data["time"] %>
+        </span>
+      <% end %>
+    </div>
+
+    <!-- Location Info -->
+    <div class="grid md:grid-cols-2 gap-4 mb-6">
+      <div class="bg-white rounded-lg p-4 shadow-sm">
+        <h6 class="text-sm font-medium text-gray-600 mb-2 flex items-center">
+          <svg class="w-4 h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+          Location
+        </h6>
+        <div class="space-y-1 text-sm">
+          <% if weather_data["latitude"] && weather_data["longitude"] %>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Coordinates:</span>
+              <span class="font-medium"><%= weather_data["latitude"] %>, <%= weather_data["longitude"] %></span>
+            </div>
+          <% end %>
+          <% if weather_data["elevation"] %>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Elevation:</span>
+              <span class="font-medium"><%= weather_data["elevation"] %>m</span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 shadow-sm">
+        <h6 class="text-sm font-medium text-gray-600 mb-2 flex items-center">
+          <svg class="w-4 h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Timezone
+        </h6>
+        <div class="space-y-1 text-sm">
+          <% if weather_data["timezone"] %>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Zone:</span>
+              <span class="font-medium"><%= weather_data["timezone"] %></span>
+            </div>
+          <% end %>
+          <% if weather_data["timezone_abbreviation"] %>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Abbreviation:</span>
+              <span class="font-medium"><%= weather_data["timezone_abbreviation"] %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current Weather -->
+    <div class="bg-white rounded-lg p-6 shadow-sm">
+      <h6 class="text-sm font-medium text-gray-600 mb-4 flex items-center">
+        <svg class="w-4 h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+        </svg>
+        Current Conditions
+      </h6>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Temperature -->
+        <% if current["temperature_2m"] %>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-blue-600 mb-1">
+              <%= current["temperature_2m"] %><span class="text-lg text-gray-500"><%= current_units["temperature_2m"] || "°" %></span>
+            </div>
+            <div class="text-sm text-gray-600">Temperature</div>
+          </div>
+        <% end %>
+
+        <!-- Wind Speed -->
+        <% if current["wind_speed_10m"] %>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-green-600 mb-1 flex items-center justify-center">
+              <svg class="w-6 h-6 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"></path>
+              </svg>
+              <%= current["wind_speed_10m"] %><span class="text-lg text-gray-500"><%= current_units["wind_speed_10m"] || " km/h" %></span>
+            </div>
+            <div class="text-sm text-gray-600">Wind Speed</div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Additional current data -->
+      <% if current["interval"] %>
+        <div class="mt-4 pt-4 border-t border-gray-200">
+          <div class="text-xs text-gray-500 text-center">
+            Data interval: <%= current["interval"] %> <%= current_units["interval"] || "seconds" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Generation info -->
+    <% if weather_data["generationtime_ms"] %>
+      <div class="mt-4 text-center">
+        <span class="text-xs text-gray-400">
+          Generated in <%= weather_data["generationtime_ms"] %>ms
+        </span>
+      </div>
+    <% end %>
+  </div>
 </div>

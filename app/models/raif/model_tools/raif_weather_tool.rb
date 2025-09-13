@@ -62,7 +62,7 @@ module Raif
         # When your tool is invoked in a Raif::Conversation, should the result be automatically provided back to the model?
         # When true, observation_for_invocation will be used to produce the observation provided to the model
         def triggers_observation_to_model?
-          false
+          true
         end
 
         # When the LLM invokes your tool, this method will be called with a `Raif::ModelToolInvocation` record as an argument.
