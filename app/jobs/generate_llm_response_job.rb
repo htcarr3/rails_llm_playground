@@ -3,6 +3,7 @@ class GenerateLlmResponseJob < ApplicationJob
 
   def perform(chat_id, message_content)
     chat = Chat.find(chat_id)
+    chat.with_tool(RubyLlmWeatherTool)
     begin
       # Generate LLM response using RubyLLM
       response = chat.ask(message_content)
