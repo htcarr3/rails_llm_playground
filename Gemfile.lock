@@ -346,7 +346,7 @@ GEM
       faraday (>= 1)
       faraday-multipart (>= 1)
     ruby-progressbar (1.13.0)
-    ruby_llm (1.6.4)
+    ruby_llm (1.8.0)
       base64
       event_stream_parser (~> 1)
       faraday (>= 1.10.0)
