@@ -1,0 +1,28 @@
+<div id="<%= dom_id chat %>" class="bg-white rounded-lg p-6 hover:shadow-lg hover:bg-gray-50 transition-shadow duration-200">
+  <div class="flex items-start justify-between mb-4">
+    <div class="flex-1">
+      <div class="flex items-center mb-2">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+          <%= chat.model_association.name %>
+        </span>
+        <span class="ml-2 text-sm text-gray-500">
+          <%= chat.messages_association.count %> messages
+        </span>
+      </div>
+      
+      <% first_user_message = chat.messages_association.where(role: 'user').first %>
+      <% if first_user_message&.content.present? %>
+        <p class="text-gray-700 text-sm mb-3 leading-relaxed">
+          "<%= truncate(first_user_message.content, length: 80, separator: ' ') %>"
+        </p>
+      <% end %>
+      
+      <div class="flex items-center text-xs text-gray-400">
+        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <%= chat.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+      </div>
+    </div>
+  </div>
+</div>

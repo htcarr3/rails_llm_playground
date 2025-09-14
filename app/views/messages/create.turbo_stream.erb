@@ -1,0 +1,9 @@
+<%= turbo_stream.append "messages" do %>
+  <% @chat.messages_association.last(2).each do |message| %>
+    <%= render "messages/message", message: message %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.replace "new_message" do %>
+  <%= render "messages/form", chat: @chat, message: @chat.messages_association.build %>
+<% end %>

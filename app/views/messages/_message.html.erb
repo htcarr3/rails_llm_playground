@@ -1,13 +1,9 @@
-<div class="flex <%= message.role == 'user' ? 'justify-end' : 'justify-start' %>">
-  <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg <%= message.role == 'user' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800' %>">
-    <div class="text-xs font-medium mb-1 <%= message.role == 'user' ? 'text-blue-100' : 'text-gray-500' %>">
-      <%= message.role.capitalize %>
-    </div>
-    <div class="text-sm whitespace-pre-wrap"><%= message.content %></div>
-    <% if message.model_id.present? %>
-      <div class="text-xs mt-1 <%= message.role == 'user' ? 'text-blue-100' : 'text-gray-400' %>">
-        <%= message.model_id %>
-      </div>
-    <% end %>
+<%= tag.div id: dom_id(message), class: "message mb-5 p-3 #{message.role == 'user' ? 'border-l-4 border-blue-500' : 'border-l-4 border-green-500'} bg-white rounded-lg shadow-sm" do %>
+  <div class="font-bold mb-2 text-gray-800">
+    <%= message.role&.capitalize %>
   </div>
-</div>
+  <div class="whitespace-pre-wrap text-gray-900 leading-relaxed"><%= message.content %></div>
+  <div class="text-sm text-gray-500 mt-2">
+    <%= message.created_at&.strftime("%I:%M %p") %>
+  </div>
+<% end %>
