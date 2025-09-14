@@ -1,0 +1,37 @@
+<tr id="<%= dom_id model %>" class="hover:bg-gray-50">
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="flex items-center">
+      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+        <%= model.provider %>
+      </span>
+    </div>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="text-sm font-medium text-gray-900"><%= model.name %></div>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="text-sm text-gray-500">
+      <%= number_with_delimiter(model.context_window) if model.context_window %>
+    </div>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="text-sm text-gray-900">
+      <% if model.pricing && model.pricing['text_tokens'] && model.pricing['text_tokens']['standard'] %>
+        <% input = model.pricing['text_tokens']['standard']['input_per_million'] %>
+        <% output = model.pricing['text_tokens']['standard']['output_per_million'] %>
+        <% if input && output %>
+          <span class="text-green-600 font-medium">$<%= "%.2f" % input %></span> / 
+          <span class="text-red-600 font-medium">$<%= "%.2f" % output %></span>
+        <% end %>
+      <% end %>
+    </div>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+    <div class="flex space-x-2">
+      <%= link_to "Show", model, 
+          class: "text-indigo-600 hover:text-indigo-900 transition duration-200" %>
+      <%= link_to "Start Chat", new_chat_path(model: model.model_id), 
+          class: "bg-green-600 hover:bg-green-700 text-white font-medium py-1 px-3 rounded text-xs transition duration-200" %>
+    </div>
+  </td>
+</tr>
