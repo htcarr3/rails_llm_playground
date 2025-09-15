@@ -104,12 +104,12 @@ A Rails application for exploring and testing different Large Language Model (LL
 - Messages are processed asynchronously
 - Supports tool integration
 
-#### RAIX Chats (`/raix_chats`)
+#### Raix Chats (`/raix_chats`)
 - Create structured conversations using RAIX framework
 - Choose from different conversation types
 - Enhanced conversation management
 
-#### RAIF Conversations (`/raif_conversations`)
+#### Raif Conversations (`/raif_conversations`)
 - Access advanced conversation features through RAIF engine
 - Sophisticated conversation flows
 - Extended functionality through mounted engine
