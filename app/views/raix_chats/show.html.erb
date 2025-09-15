@@ -1,6 +1,6 @@
 <%= turbo_stream_from "raix_chat_#{@raix_chat.id}" %>
 
-<div class="mx-auto md:w-2/3 w-full h-screen flex flex-col">
+<div class="w-full max-w-4xl mx-auto p-6 bg-white">
   <!-- Header -->
   <div class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
     <div>
@@ -16,7 +16,7 @@
   </div>
 
   <!-- Messages Container -->
-  <div class="flex-1 overflow-y-auto p-6" id="messages-container">
+  <div class="flex-1 space-y-4 h-full max-h-[500px] overflow-y-auto bg-white rounded-lg p-4" id="messages-container">
     <div class="space-y-6 max-w-4xl mx-auto">
       <% if @raix_chat.messages.any? %>
         <% @raix_chat.messages.each do |message| %>
