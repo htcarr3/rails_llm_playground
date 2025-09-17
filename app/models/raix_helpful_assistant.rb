@@ -15,14 +15,10 @@ class RaixHelpfulAssistant
              description: "Longitude (e.g., 52.5200)",
              required: true
            } do |arguments|
-    begin
-      url = "https://api.open-meteo.com/v1/forecast?temperature_unit=fahrenheit&latitude=#{arguments[:latitude]}&longitude=#{arguments[:longitude]}&current=temperature_2m,wind_speed_10m"
-
-      response = Faraday.get(url)
-      data = JSON.parse(response.body)
-    rescue => e
-      "Error getting weather: #{e.message}"
-    end
+    WeatherService.fetch_weather(
+      latitude: arguments[:latitude],
+      longitude: arguments[:longitude]
+    )
   end
 
   function :get_time, "Get the current time" do |_arguments|

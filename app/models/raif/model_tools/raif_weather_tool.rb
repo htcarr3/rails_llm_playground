@@ -73,15 +73,9 @@ module Raif
           # Extract arguments from tool_invocation.tool_arguments
           latitude = tool_invocation.tool_arguments["latitude"]
           longitude = tool_invocation.tool_arguments["longitude"]
-          # Process the invocation and perform the desired action
-          begin
-            url = "https://api.open-meteo.com/v1/forecast?temperature_unit=fahrenheit&latitude=#{latitude}&longitude=#{longitude}&current=temperature_2m,wind_speed_10m"
 
-            response = Faraday.get(url)
-            result = JSON.parse(response.body)
-          rescue => e
-            result = { error: e.message }
-          end
+          # Process the invocation using the shared weather service
+          result = WeatherService.fetch_weather(latitude: latitude, longitude: longitude)
 
           # Store the results in the tool_invocation
           tool_invocation.update!(
