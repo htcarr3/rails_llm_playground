@@ -225,7 +225,7 @@ GEM
       dotenv (>= 2)
       faraday (>= 1)
       faraday-multipart (>= 1)
-    openai (0.23.3)
+    openai (0.30.0)
       connection_pool
     ostruct (0.6.3)
     pagy (9.4.0)
@@ -457,7 +457,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
-  openai (~> 0.23.3)
+  openai (~> 0.30.0)
   propshaft
   puma (>= 5.0)
   raif (~> 1.3)
