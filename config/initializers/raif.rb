@@ -71,7 +71,7 @@ Raif.configure do |config|
   #   open_router_gemini_2_0_flash
   #   open_router_deepseek_chat_v3
   #
-  config.default_llm_model_key = "open_ai_gpt_4o"
+  config.default_llm_model_key = Rails.env.test? ? "raif_test_llm" : "open_ai_gpt_4o"
 
   # The default embedding model to use when calling Raif.generate_embedding!
   # Defaults to "open_ai_text_embedding_3_small"
@@ -81,7 +81,7 @@ Raif.configure do |config|
   #   open_ai_text_embedding_ada_002
   #   bedrock_titan_embed_text_v2
   #
-  # config.default_embedding_model_key = "open_ai_text_embedding_3_small"
+  config.default_embedding_model_key = Rails.env.test? ? "raif_test_embedding_model" : "open_ai_text_embedding_3_small"
 
   # A lambda that returns true if the current user is authorized to access admin controllers.
   # By default it returns false, so you must implement this in your application to use the admin controllers.
