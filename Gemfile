@@ -68,7 +68,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "openai", "~> 0.34.1"
+gem "openai", "~> 0.43.0"
 
 gem "ruby_llm", "~> 1.8"
 
