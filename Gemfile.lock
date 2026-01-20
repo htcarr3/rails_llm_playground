@@ -159,7 +159,7 @@ GEM
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
     jmespath (1.6.2)
-    json (2.13.2)
+    json (2.15.0)
     json-schema (6.0.0)
       addressable (~> 2.8)
       bigdecimal (~> 3.1)
@@ -351,7 +351,7 @@ GEM
       faraday (>= 1)
       faraday-multipart (>= 1)
     ruby-progressbar (1.13.0)
-    ruby_llm (1.8.0)
+    ruby_llm (1.8.2)
       base64
       event_stream_parser (~> 1)
       faraday (>= 1.10.0)
@@ -470,7 +470,7 @@ DEPENDENCIES
   rails (~> 8.1.1)
   raix (~> 1.0, >= 1.0.3)
   rubocop-rails-omakase
-  ruby_llm (~> 1.6)
+  ruby_llm (~> 1.8)
   selenium-webdriver
   solid_cable
   solid_cache
