@@ -78,4 +78,4 @@ gem "tailwindcss-ruby", "~> 4.1"
 
 gem "raif", "~> 1.3"
 
-gem "raix", "~> 1.0", ">= 1.0.3"
+gem "raix", "~> 2.0"
