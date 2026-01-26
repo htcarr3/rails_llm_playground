@@ -70,7 +70,7 @@ end
 
 gem "openai", "~> 0.43.0"
 
-gem "ruby_llm", "~> 1.8"
+gem "ruby_llm", "~> 1.11"
 
 gem "tailwindcss-rails", "~> 4.4"
 
