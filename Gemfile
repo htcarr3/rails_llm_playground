@@ -54,7 +54,7 @@ group :development, :test do
 end
 
 group :development, :test do
-  gem "dotenv", "~> 3.1", ">= 3.1.8"
+  gem "dotenv", "~> 3.2"
 end
 
 group :development do
